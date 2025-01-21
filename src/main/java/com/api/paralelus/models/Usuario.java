@@ -1,5 +1,6 @@
 package com.api.paralelus.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,7 +22,9 @@ public class Usuario implements UserDetails {
     private Integer id;
     private String nome;
     private String login;
+    @JsonIgnore
     private String email;
+    @JsonIgnore
     private String senha;
 
     public Usuario(String login, String nome, String email, String senha) {
@@ -32,11 +35,13 @@ public class Usuario implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
     }
 
     @Override
+    @JsonIgnore
     public String getPassword() {
         return senha;
     }
@@ -47,21 +52,25 @@ public class Usuario implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonLocked() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isEnabled() {
         return true;
     }
