@@ -1,4 +1,6 @@
 package com.api.paralelus.models.dto;
 
-public record LoginRespondeDTO(String token) {
+import com.api.paralelus.models.Usuario;
+
+public record LoginRespondeDTO(String token, Usuario user) {
 }

@@ -1,11 +1,9 @@
 package com.api.paralelus.repository;
 
-import com.api.paralelus.models.Campanha;
+import com.api.paralelus.models.Raca;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-
 @Repository
-public interface CampanhaRepository extends JpaRepository<Campanha, Integer> {
-
+public interface RacaRepository extends JpaRepository<Raca, Integer> {
 }
