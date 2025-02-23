@@ -5,6 +5,7 @@ public record AtributosDTO(
         Integer agilidade,
         Integer intelecto,
         Integer poder,
-        Integer sanidade
+        Integer sanidade,
+        Integer resistencia
 ) {
 }

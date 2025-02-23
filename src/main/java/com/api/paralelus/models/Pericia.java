@@ -6,8 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "pericia")
@@ -22,8 +22,5 @@ public class Pericia {
     private Integer id;
 
     private String nome;
-
-    @OneToMany(mappedBy = "pericia", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PersonagemPericia> personagemPericias = new ArrayList<>();
 
 }

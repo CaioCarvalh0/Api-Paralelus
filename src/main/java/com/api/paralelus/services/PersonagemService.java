@@ -5,9 +5,7 @@ import com.api.paralelus.models.dto.SalvarPersonagemDTO;
 import com.api.paralelus.models.mappers.SalvarPersonagemMapper;
 import com.api.paralelus.repository.PersonagemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class PersonagemService {
@@ -16,26 +14,28 @@ public class PersonagemService {
     private PersonagemRepository personagemRepository;
 
     @Autowired
-    private SalvarPersonagemMapper salvarPersonagemMapper;
+    private SalvarPersonagemMapper personagemMapper;
 
 
     public SalvarPersonagemDTO getPersonagem(Integer id){
         Personagem personagem = personagemRepository.findByUsuarioId(id).orElse(null);
-
         if (personagem == null) {
             var vazio = new Personagem();
             vazio.setId(0);
-            return salvarPersonagemMapper.toDTO(vazio);
+            return personagemMapper.toDTO(vazio);
         }
-        return salvarPersonagemMapper.toDTO(personagem);
+        return personagemMapper.toDTO(personagem);
     }
 
     public Personagem salvarPersonagem(SalvarPersonagemDTO dto){
-        var personagem = salvarPersonagemMapper.toEntity(dto);
+        var personagem = personagemMapper.toEntity(dto);
         Personagem personagemExistente = this.personagemRepository.findByIdAndUsuarioId(personagem.getId(), personagem.getUsuario().getId());
-        if(personagemExistente != null){
+        if (personagemExistente != null) {
             personagem.setId(personagemExistente.getId());
+            var atributoID = personagemExistente.getAtributos().getId();
+            personagem.getAtributos().setId(atributoID);
         }
-        return this.personagemRepository.save(personagem);
+        return personagemRepository.save(personagem);
     }
+
 }

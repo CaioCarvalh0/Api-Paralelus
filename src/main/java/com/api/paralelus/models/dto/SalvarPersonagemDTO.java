@@ -1,7 +1,5 @@
 package com.api.paralelus.models.dto;
 
-import com.api.paralelus.models.Atributos;
-import lombok.Getter;
 
 import java.util.List;
 
@@ -21,6 +19,9 @@ public record SalvarPersonagemDTO(
         Integer energiaAtual,
         Integer defesa,
         String inventario,
-        String imagemBase64
+        String singularidade,
+        String imagem,
+        Integer level,
+        String caracteristica
 ) {
 }

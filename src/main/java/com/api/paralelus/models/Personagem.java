@@ -6,8 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "personagem")
@@ -25,7 +24,7 @@ public class Personagem {
     @JoinColumn(name = "user_id", nullable = false)
     private Usuario usuario;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "atributo_id", nullable = false)
     private Atributos atributos;
 
@@ -45,35 +44,44 @@ public class Personagem {
     @Column(name = "singularidade")
     private String singularidade;
 
-    @Lob
-    @Column(name = "imagem")
+    @Column(name = "imagem", columnDefinition = "BYTEA")
     private byte[] imagem;
 
     @Column(name = "inventario")
     private String inventario;
 
     @Column(name = "vida")
-    private Integer vida;
-
-    @Column(name = "energia")
-    private Integer energia;
-
-    @Column(name = "defesa")
-    private Integer defesa;
+    private Integer vidaAtual;
 
     @Column(name = "vidamax")
     private Integer vidaMax;
 
+    @Column(name = "energia")
+    private Integer energiaAtual;
+
     @Column(name = "energiamax")
     private Integer energiaMax;
 
-    @OneToMany(mappedBy = "personagem", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PersonagemPericia> personagemPericias = new ArrayList<>();
+    @Column(name = "defesa")
+    private Integer defesa;
 
-    @OneToMany(mappedBy = "personagem", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PersonagemArquetipo> personagemArquetipos = new ArrayList<>();
+    @OneToMany(mappedBy = "personagem", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private Set<PersonagemPericia> personagemPericias;
 
-    @OneToMany(mappedBy = "personagem", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PersonagemCaminho> personagemCaminhos = new ArrayList<>();
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, targetEntity = Arquetipo.class)
+    @JoinTable(
+            name = "personagem_arquetipo",
+            joinColumns = @JoinColumn(name = "personagem_id"),
+            inverseJoinColumns = @JoinColumn(name = "arquetipo_id")
+    )
+    private Set<Arquetipo> personagemArquetipos;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, targetEntity = Caminho.class)
+    @JoinTable(
+            name = "personagem_caminho",
+            joinColumns = @JoinColumn(name = "personagem_id"),
+            inverseJoinColumns = @JoinColumn(name = "caminho_id")
+    )
+    private Set<Caminho> personagemCaminhos;
 
 }

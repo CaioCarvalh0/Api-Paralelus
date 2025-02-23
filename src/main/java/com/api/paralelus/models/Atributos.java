@@ -23,5 +23,6 @@ public class Atributos {
     private Integer intelecto;
     private Integer poder;
     private Integer sanidade;
+    private Integer resistencia;
 
 }

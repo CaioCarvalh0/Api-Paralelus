@@ -1,5 +1,6 @@
 package com.api.paralelus.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,7 +13,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties("personagem")
 public class PersonagemCaminho {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -24,4 +27,5 @@ public class PersonagemCaminho {
     @ManyToOne
     @JoinColumn(name = "caminho_id", nullable = false)
     private Caminho caminho;
+
 }
