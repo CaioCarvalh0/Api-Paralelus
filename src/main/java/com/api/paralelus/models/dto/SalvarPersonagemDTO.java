@@ -20,7 +20,7 @@ public record SalvarPersonagemDTO(
         Integer defesa,
         String inventario,
         String singularidade,
-        String imagem,
+        String imagemBase64,
         Integer level,
         String caracteristica
 ) {

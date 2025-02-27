@@ -9,6 +9,7 @@ import com.api.paralelus.models.mappers.ArquetipoMapper;
 import com.api.paralelus.models.mappers.PericiaMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 
 import java.util.Base64;
 import java.util.List;
@@ -21,12 +22,14 @@ public interface SalvarPersonagemMapper {
     @Mapping(target = "personagemCaminhos", source = "caminho")
     @Mapping(target = "energiaAtual", source = "energiaAtual")
     @Mapping(target = "personagemArquetipos", source = "arquetipo")
+    @Mapping(source = "imagemBase64", target = "imagem", qualifiedByName = "base64ParaBytes")
     Personagem toEntity(SalvarPersonagemDTO dto);
 
     @Mapping(target = "pericias", source = "personagemPericias")
     @Mapping(target = "arquetipo", source = "personagemArquetipos")
     @Mapping(target = "caminho", source = "personagemCaminhos")
     @Mapping(target = "energiaAtual", source = "energiaAtual")
+    @Mapping(source = "imagem", target = "imagemBase64", qualifiedByName = "bytesParaBase64")
     SalvarPersonagemDTO toDTO(Personagem entity);
 
     List<ArquetipoDTO> personagemArquetipoSetToArquetipoDTOList(Set<PersonagemArquetipo> personagemArquetipos);
@@ -39,6 +42,15 @@ public interface SalvarPersonagemMapper {
     @Mapping(target = "pericias", source = "personagemPericias")
     List<PericiaDTO> personagemPericiaSetToPericiaDTOList(Set<PersonagemPericia> personagemPericias);
 
+    @Named("base64ParaBytes")
+    static byte[] base64ParaBytes(String base64) {
+        return base64 != null ? Base64.getDecoder().decode(base64) : null;
+    }
+
+    @Named("bytesParaBase64")
+    static String bytesParaBase64(byte[] bytes) {
+        return bytes != null ? Base64.getEncoder().encodeToString(bytes) : null;
+    }
 
     default byte[] map(String value) {
         if (value == null || value.isEmpty()) {

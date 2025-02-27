@@ -1,5 +1,6 @@
 package com.api.paralelus.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -44,6 +45,7 @@ public class Personagem {
     @Column(name = "singularidade")
     private String singularidade;
 
+    @JsonIgnore
     @Column(name = "imagem", columnDefinition = "BYTEA")
     private byte[] imagem;
 

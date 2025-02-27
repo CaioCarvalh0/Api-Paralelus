@@ -7,6 +7,9 @@ import com.api.paralelus.repository.PersonagemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Base64;
+import java.util.Optional;
+
 @Service
 public class PersonagemService {
 
@@ -37,5 +40,16 @@ public class PersonagemService {
         }
         return personagemRepository.save(personagem);
     }
+
+    public String getImagemPersonagem(Integer id) {
+        Optional<Personagem> personagem = personagemRepository.findById(id);
+
+        if (personagem.isEmpty() || personagem.get().getImagem() == null) {
+            return null;
+        }
+
+        return "data:image/png;base64," + Base64.getEncoder().encodeToString(personagem.get().getImagem());
+    }
+
 
 }

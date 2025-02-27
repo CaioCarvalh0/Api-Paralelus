@@ -4,6 +4,7 @@ import com.api.paralelus.infra.security.ApiResponse;
 import com.api.paralelus.models.dto.SalvarPersonagemDTO;
 import com.api.paralelus.services.PersonagemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,4 +28,14 @@ public class PersonagemController {
         return ResponseEntity.ok( new ApiResponse("Personagem salvo com sucesso"));
     }
 
+    @GetMapping("/{id}/imagem")
+    public ResponseEntity<String> getImagemPersonagem(@PathVariable Integer id) {
+        String imagemBase64 = personagemService.getImagemPersonagem(id);
+
+        if (imagemBase64 == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok().body(imagemBase64);
+    }
 }
