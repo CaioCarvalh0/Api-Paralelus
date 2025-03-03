@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -26,7 +28,7 @@ public class Personagem {
     private Usuario usuario;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "atributo_id", nullable = false)
+    @JoinColumn(name = "atributo_id")
     private Atributos atributos;
 
     @Column(name = "nome")
@@ -39,7 +41,7 @@ public class Personagem {
     private Integer level;
 
     @ManyToOne
-    @JoinColumn(name = "raca_id", nullable = false)
+    @JoinColumn(name = "raca_id")
     private Raca raca;
 
     @Column(name = "singularidade")
@@ -67,10 +69,10 @@ public class Personagem {
     @Column(name = "defesa")
     private Integer defesa;
 
-    @OneToMany(mappedBy = "personagem", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private Set<PersonagemPericia> personagemPericias;
+    @OneToMany(mappedBy = "personagem", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<PersonagemPericia> personagemPericias  = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, targetEntity = Arquetipo.class)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Arquetipo.class)
     @JoinTable(
             name = "personagem_arquetipo",
             joinColumns = @JoinColumn(name = "personagem_id"),
@@ -78,7 +80,7 @@ public class Personagem {
     )
     private Set<Arquetipo> personagemArquetipos;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, targetEntity = Caminho.class)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Caminho.class)
     @JoinTable(
             name = "personagem_caminho",
             joinColumns = @JoinColumn(name = "personagem_id"),

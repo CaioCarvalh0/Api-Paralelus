@@ -1,14 +1,17 @@
 package com.api.paralelus.services;
 
+import com.api.paralelus.models.Pericia;
 import com.api.paralelus.models.Personagem;
+import com.api.paralelus.models.PersonagemPericia;
+import com.api.paralelus.models.dto.PericiaDTO;
 import com.api.paralelus.models.dto.SalvarPersonagemDTO;
 import com.api.paralelus.models.mappers.SalvarPersonagemMapper;
+import com.api.paralelus.repository.PericiaRepository;
 import com.api.paralelus.repository.PersonagemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Base64;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class PersonagemService {
@@ -19,6 +22,8 @@ public class PersonagemService {
     @Autowired
     private SalvarPersonagemMapper personagemMapper;
 
+    @Autowired
+    private PericiaRepository periciaRepository;
 
     public SalvarPersonagemDTO getPersonagem(Integer id){
         Personagem personagem = personagemRepository.findByUsuarioId(id).orElse(null);
@@ -32,6 +37,21 @@ public class PersonagemService {
 
     public Personagem salvarPersonagem(SalvarPersonagemDTO dto){
         var personagem = personagemMapper.toEntity(dto);
+
+        Set<PersonagemPericia> personagemPericias = new HashSet<>();
+        for (PericiaDTO periciaDTO : dto.pericias()) {
+            Pericia pericia = periciaRepository.findById(periciaDTO.id())
+                    .orElseThrow(() -> new RuntimeException("Perícia não encontrada"));
+
+            PersonagemPericia personagemPericia = new PersonagemPericia();
+            personagemPericia.setPersonagem(personagem);
+            personagemPericia.setPericia(pericia);
+            personagemPericia.setPontos(periciaDTO.pontos());
+
+            personagemPericias.add(personagemPericia);
+        }
+        personagem.setPersonagemPericias(personagemPericias);
+
         Personagem personagemExistente = this.personagemRepository.findByIdAndUsuarioId(personagem.getId(), personagem.getUsuario().getId());
         if (personagemExistente != null) {
             personagem.setId(personagemExistente.getId());
@@ -43,13 +63,10 @@ public class PersonagemService {
 
     public String getImagemPersonagem(Integer id) {
         Optional<Personagem> personagem = personagemRepository.findById(id);
-
         if (personagem.isEmpty() || personagem.get().getImagem() == null) {
             return null;
         }
-
         return "data:image/png;base64," + Base64.getEncoder().encodeToString(personagem.get().getImagem());
     }
-
 
 }

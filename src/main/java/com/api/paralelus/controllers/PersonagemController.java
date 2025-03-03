@@ -25,17 +25,15 @@ public class PersonagemController {
     @PostMapping("/salvar")
     public ResponseEntity<ApiResponse> salvarPersonagem(@RequestBody  SalvarPersonagemDTO dto){
         this.personagemService.salvarPersonagem(dto);
-        return ResponseEntity.ok( new ApiResponse("Personagem salvo com sucesso"));
+        return ResponseEntity.ok( new ApiResponse(true,"", "Personagem salvo com sucesso" ));
     }
 
     @GetMapping("/{id}/imagem")
     public ResponseEntity<String> getImagemPersonagem(@PathVariable Integer id) {
         String imagemBase64 = personagemService.getImagemPersonagem(id);
-
         if (imagemBase64 == null) {
             return ResponseEntity.notFound().build();
         }
-
         return ResponseEntity.ok().body(imagemBase64);
     }
 }

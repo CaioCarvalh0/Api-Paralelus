@@ -11,14 +11,13 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
-import java.util.Base64;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface SalvarPersonagemMapper {
 
-    @Mapping(target = "personagemPericias", source = "pericias")
+    @Mapping(target = "personagemPericias", ignore = true)
     @Mapping(target = "personagemCaminhos", source = "caminho")
     @Mapping(target = "energiaAtual", source = "energiaAtual")
     @Mapping(target = "personagemArquetipos", source = "arquetipo")
@@ -32,15 +31,52 @@ public interface SalvarPersonagemMapper {
     @Mapping(source = "imagem", target = "imagemBase64", qualifiedByName = "bytesParaBase64")
     SalvarPersonagemDTO toDTO(Personagem entity);
 
-    List<ArquetipoDTO> personagemArquetipoSetToArquetipoDTOList(Set<PersonagemArquetipo> personagemArquetipos);
 
     @Mapping(target = "id", source = "pericia.id")
     @Mapping(target = "nome", source = "pericia.nome")
     @Mapping(target = "pontos", source = "pontos")
-    PericiaDTO personagemPericiaToPericiaDTO(PersonagemPericia personagemPericia);
+    default PericiaDTO personagemPericiaToPericiaDTO(PersonagemPericia personagemPericia) {
+        if (personagemPericia.getPericia() == null) {
+            System.out.println("Pericia está nula para PersonagemPericia com ID: " + personagemPericia.getId());
+            return null; // ou retornar um PericiaDTO com valores padrão, caso necessário
+        }
+        return new PericiaDTO(personagemPericia.getPericia().getId(), personagemPericia.getPericia().getNome(), personagemPericia.getPontos());
+    }
 
     @Mapping(target = "pericias", source = "personagemPericias")
     List<PericiaDTO> personagemPericiaSetToPericiaDTOList(Set<PersonagemPericia> personagemPericias);
+
+
+    @Mapping(target = "id", ignore = true) // Ignoramos o ID, pois será gerado automaticamente
+    @Mapping(target = "pericia.id", source = "id")
+    @Mapping(target = "pericia.nome", source = "nome")
+    @Mapping(target = "pontos", source = "pontos")
+    default PersonagemPericia periciaDTOToPersonagemPericia(PericiaDTO periciaDTO) {
+        if (periciaDTO == null) {
+            System.out.println("PericiaDTO é nulo!");
+            return null;
+        }
+        if (periciaDTO.id() == null || periciaDTO.nome() == null) {
+            System.out.println("PericiaDTO com dados nulos: " + periciaDTO);
+            return null; // Ou lançar exceção personalizada, se necessário
+        }
+        PersonagemPericia personagemPericia = new PersonagemPericia();
+        personagemPericia.setPericia(new Pericia(periciaDTO.id(), periciaDTO.nome()));
+        personagemPericia.setPontos(periciaDTO.pontos());
+        return personagemPericia;
+    }
+
+    @Named("periciaDTOListToPersonagemPericiaSet")
+    default Set<PersonagemPericia> periciaDTOListToPersonagemPericiaSet(List<PericiaDTO> pericias) {
+        if (pericias == null) {
+            return new HashSet<>();
+        }
+        System.out.println("Convertendo lista de PericiaDTO para PersonagemPericia...");
+        pericias.forEach(periciaDTO -> System.out.println("Converting PericiaDTO: " + periciaDTO));
+        return pericias.stream()
+                .map(this::periciaDTOToPersonagemPericia)
+                .collect(Collectors.toSet());
+    }
 
     @Named("base64ParaBytes")
     static byte[] base64ParaBytes(String base64) {
