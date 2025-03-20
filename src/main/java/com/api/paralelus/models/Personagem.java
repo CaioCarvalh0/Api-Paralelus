@@ -31,6 +31,10 @@ public class Personagem {
     @JoinColumn(name = "atributo_id")
     private Atributos atributos;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "singularidade_id")
+    private Singularidade singularidade;
+
     @Column(name = "nome")
     private String nome;
 
@@ -44,15 +48,18 @@ public class Personagem {
     @JoinColumn(name = "raca_id")
     private Raca raca;
 
-    @Column(name = "singularidade")
-    private String singularidade;
-
     @JsonIgnore
     @Column(name = "imagem", columnDefinition = "BYTEA")
     private byte[] imagem;
 
     @Column(name = "inventario")
     private String inventario;
+
+    @Column(name = "cibernetica")
+    private String cibernetica;
+
+    @Column(name = "historia")
+    private String historia;
 
     @Column(name = "vida")
     private Integer vidaAtual;
@@ -69,7 +76,8 @@ public class Personagem {
     @Column(name = "defesa")
     private Integer defesa;
 
-    @OneToMany(mappedBy = "personagem", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "personagem", cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.LAZY,
+               orphanRemoval = true)
     private Set<PersonagemPericia> personagemPericias  = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Arquetipo.class)

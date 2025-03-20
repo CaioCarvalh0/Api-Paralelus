@@ -18,7 +18,7 @@ public class PersonagemPericia {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "personagem_id", nullable = false)

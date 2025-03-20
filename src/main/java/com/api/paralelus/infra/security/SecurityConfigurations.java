@@ -46,7 +46,7 @@ public class SecurityConfigurations {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://192.168.100.128:8282","http://servercaio.ddns.net:8282", "http://localhost:4200/"));
+        configuration.setAllowedOrigins(List.of("https://servercaio.ddns.net", "http://localhost:4200"));
         configuration.setAllowedMethods(List.of("*"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);

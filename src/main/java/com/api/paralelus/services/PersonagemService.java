@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 public class PersonagemService {
@@ -35,8 +37,13 @@ public class PersonagemService {
         return personagemMapper.toDTO(personagem);
     }
 
-    public Personagem salvarPersonagem(SalvarPersonagemDTO dto){
+    public Personagem salvarPersonagem(SalvarPersonagemDTO dto) {
         var personagem = personagemMapper.toEntity(dto);
+
+        Personagem personagemExistente = this.personagemRepository.findByIdAndUsuarioId(personagem.getId(), personagem.getUsuario().getId());
+        if (personagemExistente != null) {
+            personagem.setId(personagemExistente.getId());
+        }
 
         Set<PersonagemPericia> personagemPericias = new HashSet<>();
         for (PericiaDTO periciaDTO : dto.pericias()) {
@@ -44,6 +51,12 @@ public class PersonagemService {
                     .orElseThrow(() -> new RuntimeException("Perícia não encontrada"));
 
             PersonagemPericia personagemPericia = new PersonagemPericia();
+            if(personagemExistente != null){
+                Optional<PersonagemPericia> personagemPericiaExistente = personagemExistente.getPersonagemPericias().stream()
+                        .filter(p -> p.getPericia().getId().equals(periciaDTO.id()))
+                        .findFirst();
+                personagemPericiaExistente.ifPresent(value -> personagemPericia.setId(value.getId()));
+            }
             personagemPericia.setPersonagem(personagem);
             personagemPericia.setPericia(pericia);
             personagemPericia.setPontos(periciaDTO.pontos());
@@ -52,12 +65,6 @@ public class PersonagemService {
         }
         personagem.setPersonagemPericias(personagemPericias);
 
-        Personagem personagemExistente = this.personagemRepository.findByIdAndUsuarioId(personagem.getId(), personagem.getUsuario().getId());
-        if (personagemExistente != null) {
-            personagem.setId(personagemExistente.getId());
-            var atributoID = personagemExistente.getAtributos().getId();
-            personagem.getAtributos().setId(atributoID);
-        }
         return personagemRepository.save(personagem);
     }
 
