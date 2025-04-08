@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/personagem")
 public class PersonagemController {
@@ -15,17 +17,11 @@ public class PersonagemController {
     private PersonagemService personagemService;
 
     @GetMapping("/usuario/{id}")
-    public ResponseEntity<ApiResponse<SalvarPersonagemDTO>> getPersonagem(@PathVariable Integer id){
-        SalvarPersonagemDTO personagem = this.personagemService.getPersonagem(id);
+    public ResponseEntity<ApiResponse<List<SalvarPersonagemDTO>>> getPersonagem(@PathVariable Integer id){
+        List<SalvarPersonagemDTO> personagem = this.personagemService.getPersonagensUsuario(id);
         return ResponseEntity.ok(new ApiResponse(true, "", personagem));
     }
 
-
-    @PostMapping("/salvar")
-    public ResponseEntity salvarPersonagem(@RequestBody  SalvarPersonagemDTO dto){
-        this.personagemService.salvarPersonagem(dto);
-        return ResponseEntity.ok( new ApiResponse(true,"Personagem salvo com sucesso", "" ));
-    }
 
     @GetMapping("/{id}/imagem")
     public ResponseEntity getImagemPersonagem(@PathVariable Integer id) {
@@ -34,5 +30,12 @@ public class PersonagemController {
             return ResponseEntity.ok().body(new ApiResponse(true, "", null));
         }
         return ResponseEntity.ok().body(imagemBase64);
+    }
+
+
+    @PostMapping("/salvar")
+    public ResponseEntity salvarPersonagem(@RequestBody  SalvarPersonagemDTO dto){
+        this.personagemService.salvarPersonagem(dto);
+        return ResponseEntity.ok( new ApiResponse(true,"Personagem salvo com sucesso", "" ));
     }
 }

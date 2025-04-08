@@ -42,40 +42,7 @@ public interface SalvarPersonagemMapper {
     @Mapping(target = "nome", source = "pericia.nome")
     PericiaDTO toPericiaDTO(PersonagemPericia personagemPericia);
 
-//    @Mapping(target = "id", source = "pericia.id")
-//    @Mapping(target = "nome", source = "pericia.nome")
-//    @Mapping(target = "pontos", source = "pontos")
-//    default PericiaDTO personagemPericiaToPericiaDTO(PersonagemPericia personagemPericia) {
-//        if (personagemPericia.getPericia() == null) {
-//            System.out.println("Pericia está nula para PersonagemPericia com ID: " + personagemPericia.getId());
-//            return null; // ou retornar um PericiaDTO com valores padrão, caso necessário
-//        }
-//        return new PericiaDTO(personagemPericia.getPericia().getId(), personagemPericia.getPericia().getNome(), personagemPericia.getPontos());
-//    }
 
-//    @Mapping(target = "id", source = "id")
-//    @Mapping(target = "pericia.id", source = "id")
-//    @Mapping(target = "pericia.nome", source = "nome")
-//    @Mapping(target = "pontos", source = "pontos")
-//    default PersonagemPericia periciaDTOToPersonagemPericia(PericiaDTO periciaDTO) {
-//
-//        PersonagemPericia personagemPericia = new PersonagemPericia();
-//        personagemPericia.setPericia(new Pericia(periciaDTO.id(), periciaDTO.nome()));
-//        personagemPericia.setPontos(periciaDTO.pontos());
-//        return personagemPericia;
-//    }
-
-//    @Named("periciaDTOListToPersonagemPericiaSet")
-//    default Set<PersonagemPericia> periciaDTOListToPersonagemPericiaSet(List<PericiaDTO> pericias) {
-//        if (pericias == null) {
-//            return new HashSet<>();
-//        }
-//        System.out.println("Convertendo lista de PericiaDTO para PersonagemPericia...");
-//        pericias.forEach(periciaDTO -> System.out.println("Converting PericiaDTO: " + periciaDTO));
-//        return pericias.stream()
-//                .map(this::periciaDTOToPersonagemPericia)
-//                .collect(Collectors.toSet());
-//    }
 
     @Named("base64ParaBytes")
     static byte[] base64ParaBytes(String base64) {

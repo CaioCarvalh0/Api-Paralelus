@@ -27,18 +27,13 @@ public class PersonagemService {
     @Autowired
     private PericiaRepository periciaRepository;
 
-    public SalvarPersonagemDTO getPersonagem(Integer id){
-        Personagem personagem = personagemRepository.findByUsuarioId(id).orElse(null);
-        if (personagem == null) {
-            var vazio = new Personagem();
-            vazio.setId(0);
-            return personagemMapper.toDTO(vazio);
-        }
-        return personagemMapper.toDTO(personagem);
+    public List<SalvarPersonagemDTO> getPersonagensUsuario(Integer id){
+        List<Personagem> personagem = personagemRepository.findByUsuarioId(id);
+        return personagem.stream().map(personagemMapper::toDTO).collect(Collectors.toList());
     }
 
     public Personagem salvarPersonagem(SalvarPersonagemDTO dto) {
-        var personagem = personagemMapper.toEntity(dto);
+        Personagem personagem = personagemMapper.toEntity(dto);
 
         Personagem personagemExistente = this.personagemRepository.findByIdAndUsuarioId(personagem.getId(), personagem.getUsuario().getId());
         if (personagemExistente != null) {
