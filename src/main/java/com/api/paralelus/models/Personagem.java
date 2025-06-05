@@ -48,7 +48,6 @@ public class Personagem {
     @JoinColumn(name = "raca_id")
     private Raca raca;
 
-    @JsonIgnore
     @Column(name = "imagem", columnDefinition = "BYTEA")
     private byte[] imagem;
 

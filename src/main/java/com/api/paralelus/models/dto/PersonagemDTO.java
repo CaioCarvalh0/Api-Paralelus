@@ -4,7 +4,7 @@ package com.api.paralelus.models.dto;
 import java.util.List;
 
 
-public record SalvarPersonagemDTO(
+public record PersonagemDTO(
         Integer id,
         UsuarioDTO usuario,
         String nome,

@@ -4,15 +4,14 @@ import com.api.paralelus.models.Pericia;
 import com.api.paralelus.models.Personagem;
 import com.api.paralelus.models.PersonagemPericia;
 import com.api.paralelus.models.dto.PericiaDTO;
-import com.api.paralelus.models.dto.SalvarPersonagemDTO;
-import com.api.paralelus.models.mappers.SalvarPersonagemMapper;
+import com.api.paralelus.models.dto.PersonagemDTO;
+import com.api.paralelus.models.mappers.PersonagemMapper;
 import com.api.paralelus.repository.PericiaRepository;
 import com.api.paralelus.repository.PersonagemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,17 +21,17 @@ public class PersonagemService {
     private PersonagemRepository personagemRepository;
 
     @Autowired
-    private SalvarPersonagemMapper personagemMapper;
+    private PersonagemMapper personagemMapper;
 
     @Autowired
     private PericiaRepository periciaRepository;
 
-    public List<SalvarPersonagemDTO> getPersonagensUsuario(Integer id){
+    public List<PersonagemDTO> getPersonagensUsuario(Integer id){
         List<Personagem> personagem = personagemRepository.findByUsuarioId(id);
         return personagem.stream().map(personagemMapper::toDTO).collect(Collectors.toList());
     }
 
-    public Personagem salvarPersonagem(SalvarPersonagemDTO dto) {
+    public PersonagemDTO salvarPersonagem(PersonagemDTO dto) {
         Personagem personagem = personagemMapper.toEntity(dto);
 
         Personagem personagemExistente = this.personagemRepository.findByIdAndUsuarioId(personagem.getId(), personagem.getUsuario().getId());
@@ -60,7 +59,9 @@ public class PersonagemService {
         }
         personagem.setPersonagemPericias(personagemPericias);
 
-        return personagemRepository.save(personagem);
+        Personagem personagemSalvo = personagemRepository.save(personagem);
+
+        return personagemMapper.toDTO(personagemSalvo);
     }
 
     public String getImagemPersonagem(Integer id) {

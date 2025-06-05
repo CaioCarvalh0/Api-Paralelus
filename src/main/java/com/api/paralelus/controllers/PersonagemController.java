@@ -1,7 +1,7 @@
 package com.api.paralelus.controllers;
 
 import com.api.paralelus.infra.security.ApiResponse;
-import com.api.paralelus.models.dto.SalvarPersonagemDTO;
+import com.api.paralelus.models.dto.PersonagemDTO;
 import com.api.paralelus.services.PersonagemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +17,8 @@ public class PersonagemController {
     private PersonagemService personagemService;
 
     @GetMapping("/usuario/{id}")
-    public ResponseEntity<ApiResponse<List<SalvarPersonagemDTO>>> getPersonagem(@PathVariable Integer id){
-        List<SalvarPersonagemDTO> personagem = this.personagemService.getPersonagensUsuario(id);
+    public ResponseEntity<ApiResponse<List<PersonagemDTO>>> getPersonagem(@PathVariable Integer id) {
+        List<PersonagemDTO> personagem = this.personagemService.getPersonagensUsuario(id);
         return ResponseEntity.ok(new ApiResponse(true, "", personagem));
     }
 
@@ -34,8 +34,8 @@ public class PersonagemController {
 
 
     @PostMapping("/salvar")
-    public ResponseEntity salvarPersonagem(@RequestBody  SalvarPersonagemDTO dto){
-        this.personagemService.salvarPersonagem(dto);
-        return ResponseEntity.ok( new ApiResponse(true,"Personagem salvo com sucesso", "" ));
+    public ResponseEntity<ApiResponse<PersonagemDTO>> salvarPersonagem(@RequestBody PersonagemDTO dto) {
+        PersonagemDTO persoangem = this.personagemService.salvarPersonagem(dto);
+        return ResponseEntity.ok(new ApiResponse(true, "Personagem salvo com sucesso", persoangem));
     }
 }

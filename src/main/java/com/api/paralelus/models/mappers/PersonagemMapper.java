@@ -1,12 +1,8 @@
 package com.api.paralelus.models.mappers;
 
 import com.api.paralelus.models.*;
-import com.api.paralelus.models.dto.ArquetipoDTO;
-import com.api.paralelus.models.dto.CaminhoDTO;
 import com.api.paralelus.models.dto.PericiaDTO;
-import com.api.paralelus.models.dto.SalvarPersonagemDTO;
-import com.api.paralelus.models.mappers.ArquetipoMapper;
-import com.api.paralelus.models.mappers.PericiaMapper;
+import com.api.paralelus.models.dto.PersonagemDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -15,21 +11,21 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
-public interface SalvarPersonagemMapper {
+public interface PersonagemMapper {
 
     @Mapping(target = "personagemPericias", ignore = true)
     @Mapping(target = "personagemCaminhos", source = "caminho")
     @Mapping(target = "energiaAtual", source = "energiaAtual")
     @Mapping(target = "personagemArquetipos", source = "arquetipo")
     @Mapping(source = "imagemBase64", target = "imagem", qualifiedByName = "base64ParaBytes")
-    Personagem toEntity(SalvarPersonagemDTO dto);
+    Personagem toEntity(PersonagemDTO dto);
 
     @Mapping(target = "pericias", expression = "java(ordenaPericias(entity.getPersonagemPericias()))")
     @Mapping(target = "arquetipo", source = "personagemArquetipos")
     @Mapping(target = "caminho", source = "personagemCaminhos")
     @Mapping(target = "energiaAtual", source = "energiaAtual")
     @Mapping(source = "imagem", target = "imagemBase64", qualifiedByName = "bytesParaBase64")
-    SalvarPersonagemDTO toDTO(Personagem entity);
+    PersonagemDTO toDTO(Personagem entity);
 
     default List<PericiaDTO> ordenaPericias(Set<PersonagemPericia> personagemPericias) {
         return personagemPericias.stream()
