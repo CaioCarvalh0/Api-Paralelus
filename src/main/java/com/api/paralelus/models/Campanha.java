@@ -26,4 +26,7 @@ public class Campanha {
 
     private Boolean ativa;
 
+    @Column(name = "capa", columnDefinition = "BYTEA")
+    private byte[] capa;
+
 }

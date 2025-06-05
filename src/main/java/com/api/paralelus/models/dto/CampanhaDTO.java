@@ -5,5 +5,7 @@ public record CampanhaDTO(
         String nome,
         UsuarioDTO mestre,
         Integer nivel,
-        Boolean ativa) {
+        Boolean ativa,
+        String capaBase64
+) {
 }
