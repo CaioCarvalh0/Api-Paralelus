@@ -19,7 +19,7 @@ public class PersonagemController {
     @GetMapping("/usuario/{id}")
     public ResponseEntity<ApiResponse<List<PersonagemDTO>>> getPersonagem(@PathVariable Integer id) {
         List<PersonagemDTO> personagem = this.personagemService.getPersonagensUsuario(id);
-        return ResponseEntity.ok(new ApiResponse(true, "", personagem));
+        return ResponseEntity.ok(new ApiResponse<>(true, "", personagem));
     }
 
 
@@ -35,7 +35,13 @@ public class PersonagemController {
 
     @PostMapping("/salvar")
     public ResponseEntity<ApiResponse<PersonagemDTO>> salvarPersonagem(@RequestBody PersonagemDTO dto) {
-        PersonagemDTO persoangem = this.personagemService.salvarPersonagem(dto);
-        return ResponseEntity.ok(new ApiResponse(true, "Personagem salvo com sucesso", persoangem));
+        PersonagemDTO personagem = this.personagemService.salvarPersonagem(dto);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Personagem salvo com sucesso", personagem));
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<ApiResponse<Boolean>> deletePersonagem(@PathVariable Integer id) {
+        this.personagemService.deletePersonagem(id);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Personagem removido com sucesso", true));
     }
 }
