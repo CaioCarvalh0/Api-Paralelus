@@ -14,7 +14,7 @@ public interface CampanhaMapper {
     @Mapping(source = "capa", target = "capaBase64", qualifiedByName = "bytesParaBase64")
     CampanhaDTO toDTO(Campanha campanha);
 
-    @Mapping(source = "capaBase64", target = "capa", qualifiedByName = "bytesParaBase64")
+    @Mapping(source = "capaBase64", target = "capa", qualifiedByName = "base64ParaBytes")
     Campanha toEntity(CampanhaDTO campanhaDTO);
 
     @Named("base64ParaBytes")

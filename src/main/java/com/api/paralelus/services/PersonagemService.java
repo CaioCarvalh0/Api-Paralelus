@@ -8,6 +8,7 @@ import com.api.paralelus.models.dto.PersonagemDTO;
 import com.api.paralelus.models.mappers.PersonagemMapper;
 import com.api.paralelus.repository.PericiaRepository;
 import com.api.paralelus.repository.PersonagemRepository;
+import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -70,6 +71,11 @@ public class PersonagemService {
             return null;
         }
         return "data:image/png;base64," + Base64.getEncoder().encodeToString(personagem.get().getImagem());
+    }
+
+    public void deletePersonagem(Integer id) {
+        Optional<Personagem> personagem = personagemRepository.findById(id);
+        personagem.ifPresent(value -> personagemRepository.delete(value));
     }
 
 }
