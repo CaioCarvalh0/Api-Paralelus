@@ -1,12 +1,13 @@
 package com.api.paralelus.controllers;
 
 import com.api.paralelus.infra.security.ApiResponse;
-import com.api.paralelus.models.dto.AuthenticationDTO;
-import com.api.paralelus.models.dto.LoginRespondeDTO;
-import com.api.paralelus.models.dto.RegisterDTO;
-import com.api.paralelus.models.Usuario;
-import com.api.paralelus.models.dto.UsuarioDTO;
+import com.api.paralelus.dto.AuthenticationDTO;
+import com.api.paralelus.dto.LoginRespondeDTO;
+import com.api.paralelus.dto.RegisterDTO;
+import com.api.paralelus.entity.Usuario;
+import com.api.paralelus.dto.UsuarioDTO;
 import com.api.paralelus.repository.UsuarioRepository;
+import com.api.paralelus.services.PasswordResetService;
 import com.api.paralelus.services.TokenService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,9 @@ public class AuthenticationController {
 
     @Autowired
     private TokenService tokenService;
+
+    @Autowired
+    private PasswordResetService passwordResetService;
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data) {
@@ -63,12 +67,25 @@ public class AuthenticationController {
     @PostMapping("/checkcadastro")
     public ResponseEntity<ApiResponse> checkCadastro(@RequestBody @Valid UsuarioDTO data) {
         if(this.usuarioRepository.findByLogin(data.login()) != null) {
-            return ResponseEntity.ok(new ApiResponse(false, "Login invalido", null));
+            return ResponseEntity.ok(new ApiResponse(false, "Login já em uso", null));
         }
         if(this.usuarioRepository.findByEmail(data.email()) != null) {
-            return ResponseEntity.ok(new ApiResponse(false, "Email invalido", null));
+            return ResponseEntity.ok(new ApiResponse(false, "Email já em uso", null));
         }
         return ResponseEntity.ok(new ApiResponse(true, "", null));
     }
+
+    @PostMapping("/resetpassword")
+    public ResponseEntity<ApiResponse> resetPassword(@RequestParam String email) {
+        String novaSenha = passwordResetService.resetPassword(email, null);
+        if (novaSenha != null) {
+            return ResponseEntity.ok(new ApiResponse(true,  "", novaSenha));
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(false, "Email não encontrado", null));
+        }
+    }
+
+
+
 
 }

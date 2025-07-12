@@ -1,7 +1,7 @@
 package com.api.paralelus.services;
 
-import com.api.paralelus.models.dto.ArquetipoDTO;
-import com.api.paralelus.models.mappers.ArquetipoMapper;
+import com.api.paralelus.dto.ArquetipoDTO;
+import com.api.paralelus.mappers.ArquetipoMapper;
 import com.api.paralelus.repository.ArquetipoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,6 @@
 package com.api.paralelus.controllers;
 
-import com.api.paralelus.models.dto.PericiaDTO;
+import com.api.paralelus.dto.PericiaDTO;
 import com.api.paralelus.services.PericiaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

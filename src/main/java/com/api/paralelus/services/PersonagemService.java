@@ -1,14 +1,13 @@
 package com.api.paralelus.services;
 
-import com.api.paralelus.models.Pericia;
-import com.api.paralelus.models.Personagem;
-import com.api.paralelus.models.PersonagemPericia;
-import com.api.paralelus.models.dto.PericiaDTO;
-import com.api.paralelus.models.dto.PersonagemDTO;
-import com.api.paralelus.models.mappers.PersonagemMapper;
+import com.api.paralelus.entity.Pericia;
+import com.api.paralelus.entity.Personagem;
+import com.api.paralelus.entity.PersonagemPericia;
+import com.api.paralelus.dto.PericiaDTO;
+import com.api.paralelus.dto.PersonagemDTO;
+import com.api.paralelus.mappers.PersonagemMapper;
 import com.api.paralelus.repository.PericiaRepository;
 import com.api.paralelus.repository.PersonagemRepository;
-import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,7 +46,7 @@ public class PersonagemService {
 
             PersonagemPericia personagemPericia = new PersonagemPericia();
             if(personagemExistente != null){
-                Optional<PersonagemPericia> personagemPericiaExistente = personagemExistente.getPersonagemPericias().stream()
+                Optional<PersonagemPericia> personagemPericiaExistente = personagemExistente.getPericias().stream()
                         .filter(p -> p.getPericia().getId().equals(periciaDTO.id()))
                         .findFirst();
                 personagemPericiaExistente.ifPresent(value -> personagemPericia.setId(value.getId()));
@@ -58,7 +57,7 @@ public class PersonagemService {
 
             personagemPericias.add(personagemPericia);
         }
-        personagem.setPersonagemPericias(personagemPericias);
+        personagem.setPericias(personagemPericias);
 
         Personagem personagemSalvo = personagemRepository.save(personagem);
 

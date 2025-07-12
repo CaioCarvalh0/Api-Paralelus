@@ -1,12 +1,11 @@
 package com.api.paralelus.repository;
 
-import com.api.paralelus.models.Personagem;
+import com.api.paralelus.entity.Personagem;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface PersonagemRepository extends JpaRepository<Personagem, Integer> {
@@ -14,9 +13,9 @@ public interface PersonagemRepository extends JpaRepository<Personagem, Integer>
     Personagem findByIdAndUsuarioId(Integer id, Integer usuarioId);
 
     @EntityGraph(attributePaths = {
-            "personagemPericias.pericia",
-            "personagemArquetipos",
-            "personagemCaminhos"
+            "pericias.pericia",
+            "arquetipos",
+            "caminhos"
     })
     List<Personagem> findByUsuarioId(Integer usuarioId);
 }

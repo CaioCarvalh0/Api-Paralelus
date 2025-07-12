@@ -1,6 +1,6 @@
 package com.api.paralelus.controllers;
 
-import com.api.paralelus.models.dto.ArquetipoDTO;
+import com.api.paralelus.dto.ArquetipoDTO;
 import com.api.paralelus.services.ArquetipoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

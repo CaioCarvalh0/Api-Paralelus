@@ -1,7 +1,7 @@
 package com.api.paralelus.controllers;
 
 import com.api.paralelus.infra.security.ApiResponse;
-import com.api.paralelus.models.dto.PersonagemDTO;
+import com.api.paralelus.dto.PersonagemDTO;
 import com.api.paralelus.services.PersonagemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

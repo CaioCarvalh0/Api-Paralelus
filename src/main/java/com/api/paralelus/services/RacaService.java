@@ -1,8 +1,7 @@
 package com.api.paralelus.services;
 
-import com.api.paralelus.models.Raca;
-import com.api.paralelus.models.dto.RacaDTO;
-import com.api.paralelus.models.mappers.RacaMapper;
+import com.api.paralelus.dto.RacaDTO;
+import com.api.paralelus.mappers.RacaMapper;
 import com.api.paralelus.repository.RacaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

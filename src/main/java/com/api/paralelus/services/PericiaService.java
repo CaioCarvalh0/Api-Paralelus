@@ -1,7 +1,7 @@
 package com.api.paralelus.services;
 
-import com.api.paralelus.models.dto.PericiaDTO;
-import com.api.paralelus.models.mappers.PericiaMapper;
+import com.api.paralelus.dto.PericiaDTO;
+import com.api.paralelus.mappers.PericiaMapper;
 import com.api.paralelus.repository.PericiaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

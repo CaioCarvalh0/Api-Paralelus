@@ -1,7 +1,6 @@
 package com.api.paralelus.controllers;
 
-import com.api.paralelus.models.Raca;
-import com.api.paralelus.models.dto.RacaDTO;
+import com.api.paralelus.dto.RacaDTO;
 import com.api.paralelus.services.RacaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
