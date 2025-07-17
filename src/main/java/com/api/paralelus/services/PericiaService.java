@@ -3,19 +3,18 @@ package com.api.paralelus.services;
 import com.api.paralelus.dto.PericiaDTO;
 import com.api.paralelus.mappers.PericiaMapper;
 import com.api.paralelus.repository.PericiaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class PericiaService {
 
-    @Autowired
-    private PericiaRepository periciaRepository;
+    private final PericiaRepository periciaRepository;
 
-    @Autowired
-    private PericiaMapper periciaMapper;
+    private final PericiaMapper periciaMapper;
 
     public List<PericiaDTO> getPericias(){
         var pericias = this.periciaRepository.findAll();

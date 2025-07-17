@@ -3,19 +3,18 @@ package com.api.paralelus.services;
 import com.api.paralelus.dto.CaminhoDTO;
 import com.api.paralelus.mappers.CaminhoMapper;
 import com.api.paralelus.repository.CaminhoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CaminhoService {
 
-    @Autowired
-    private CaminhoRepository caminhoRepository;
+    private final CaminhoRepository caminhoRepository;
 
-    @Autowired
-    private CaminhoMapper caminhoMapper;
+    private final CaminhoMapper caminhoMapper;
 
     public List<CaminhoDTO> getCaminhos(){
         var caminhos = this.caminhoRepository.findAll();

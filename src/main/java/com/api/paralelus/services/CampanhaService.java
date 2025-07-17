@@ -4,20 +4,19 @@ import com.api.paralelus.entity.Campanha;
 import com.api.paralelus.dto.CampanhaDTO;
 import com.api.paralelus.mappers.CampanhaMapper;
 import com.api.paralelus.repository.CampanhaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class CampanhaService {
 
-    @Autowired
-    private CampanhaRepository campanhaRepository;
+    private final CampanhaRepository campanhaRepository;
 
-    @Autowired
-    private CampanhaMapper campanhaMapper;
+    private final CampanhaMapper campanhaMapper;
 
     public List<CampanhaDTO> getCampanhas() {
         var campanhas = this.campanhaRepository.findAll();
@@ -29,9 +28,8 @@ public class CampanhaService {
         return campanhas.stream().map(campanhaMapper::toDTO).collect(Collectors.toList());
     }
 
-    public CampanhaDTO criarCamanha(CampanhaDTO dto){
+    public CampanhaDTO criarCamanha(CampanhaDTO dto) {
         Campanha campanha = campanhaMapper.toEntity(dto);
-        campanhaRepository.save(campanha);
-        return campanhaMapper.toDTO(campanha);
+        return campanhaMapper.toDTO(campanhaRepository.save(campanha));
     }
 }

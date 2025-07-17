@@ -3,19 +3,18 @@ package com.api.paralelus.services;
 import com.api.paralelus.dto.ArquetipoDTO;
 import com.api.paralelus.mappers.ArquetipoMapper;
 import com.api.paralelus.repository.ArquetipoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ArquetipoService {
 
-    @Autowired
-    private ArquetipoRepository arquetipoRepository;
+    private final ArquetipoRepository arquetipoRepository;
 
-    @Autowired
-    private ArquetipoMapper arquetipoMapper;
+    private final ArquetipoMapper arquetipoMapper;
 
     public List<ArquetipoDTO> getArquetipos(){
         var arquetipos = this.arquetipoRepository.findAll();

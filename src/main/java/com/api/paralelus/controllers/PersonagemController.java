@@ -1,20 +1,20 @@
 package com.api.paralelus.controllers;
 
-import com.api.paralelus.infra.security.ApiResponse;
 import com.api.paralelus.dto.PersonagemDTO;
+import com.api.paralelus.infra.security.ApiResponse;
 import com.api.paralelus.services.PersonagemService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/personagem")
 public class PersonagemController {
 
-    @Autowired
-    private PersonagemService personagemService;
+    private final PersonagemService personagemService;
 
     @GetMapping("/usuario/{id}")
     public ResponseEntity<ApiResponse<List<PersonagemDTO>>> getPersonagem(@PathVariable Integer id) {

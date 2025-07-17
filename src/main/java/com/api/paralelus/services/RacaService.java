@@ -3,19 +3,18 @@ package com.api.paralelus.services;
 import com.api.paralelus.dto.RacaDTO;
 import com.api.paralelus.mappers.RacaMapper;
 import com.api.paralelus.repository.RacaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class RacaService {
 
-    @Autowired
-    private RacaRepository racaRepository;
+    private final RacaRepository racaRepository;
 
-    @Autowired
-    private RacaMapper racaMapper;
+    private final RacaMapper racaMapper;
 
     public List<RacaDTO> getRacas() {
         var racas = this.racaRepository.findAll();

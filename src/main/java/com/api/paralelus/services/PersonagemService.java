@@ -1,30 +1,28 @@
 package com.api.paralelus.services;
 
+import com.api.paralelus.dto.PericiaDTO;
+import com.api.paralelus.dto.PersonagemDTO;
 import com.api.paralelus.entity.Pericia;
 import com.api.paralelus.entity.Personagem;
 import com.api.paralelus.entity.PersonagemPericia;
-import com.api.paralelus.dto.PericiaDTO;
-import com.api.paralelus.dto.PersonagemDTO;
 import com.api.paralelus.mappers.PersonagemMapper;
 import com.api.paralelus.repository.PericiaRepository;
 import com.api.paralelus.repository.PersonagemRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class PersonagemService {
 
-    @Autowired
-    private PersonagemRepository personagemRepository;
+    private final PersonagemRepository personagemRepository;
 
-    @Autowired
-    private PersonagemMapper personagemMapper;
+    private final PersonagemMapper personagemMapper;
 
-    @Autowired
-    private PericiaRepository periciaRepository;
+    private final PericiaRepository periciaRepository;
 
     public List<PersonagemDTO> getPersonagensUsuario(Integer id){
         List<Personagem> personagem = personagemRepository.findByUsuarioId(id);

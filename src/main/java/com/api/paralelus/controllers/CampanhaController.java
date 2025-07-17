@@ -1,20 +1,20 @@
 package com.api.paralelus.controllers;
 
-import com.api.paralelus.infra.security.ApiResponse;
 import com.api.paralelus.dto.CampanhaDTO;
+import com.api.paralelus.infra.security.ApiResponse;
 import com.api.paralelus.services.CampanhaService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/campanha")
 public class CampanhaController {
 
-    @Autowired
-    private CampanhaService campanhaService;
+    private final CampanhaService campanhaService;
 
     @GetMapping("/listar")
     public ResponseEntity<List<CampanhaDTO>> listCampanhas() {
