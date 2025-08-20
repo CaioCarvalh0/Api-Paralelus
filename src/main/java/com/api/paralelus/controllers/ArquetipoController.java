@@ -3,6 +3,7 @@ package com.api.paralelus.controllers;
 import com.api.paralelus.dto.ArquetipoDTO;
 import com.api.paralelus.services.ArquetipoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ public class ArquetipoController {
     private final ArquetipoService arquetipoService;
 
     @GetMapping
+    @Cacheable(value = "arquetipoCache")
     public ResponseEntity<List<ArquetipoDTO>> getArquetipos(){
         var arquetipos = this.arquetipoService.getArquetipos();
         return ResponseEntity.ok(arquetipos);

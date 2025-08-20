@@ -3,6 +3,7 @@ package com.api.paralelus.controllers;
 import com.api.paralelus.dto.RacaDTO;
 import com.api.paralelus.services.RacaService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ public class RacaController {
     private final RacaService racaService;
 
     @GetMapping
+    @Cacheable(value = "racaCache")
     public ResponseEntity<List<RacaDTO>> getRacas(){
         var racas = this.racaService.getRacas();
         return ResponseEntity.ok(racas);

@@ -3,6 +3,7 @@ package com.api.paralelus.controllers;
 import com.api.paralelus.dto.PericiaDTO;
 import com.api.paralelus.services.PericiaService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ public class PericiaController {
     private final  PericiaService periciaService;
 
     @GetMapping
+    @Cacheable(value = "periciaCache")
     public ResponseEntity<List<PericiaDTO>> listarPericias(){
         var pericias = this.periciaService.getPericias();
         return ResponseEntity.ok(pericias);

@@ -3,6 +3,7 @@ package com.api.paralelus.controllers;
 import com.api.paralelus.dto.CaminhoDTO;
 import com.api.paralelus.services.CaminhoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ public class CaminhoController {
     private final CaminhoService caminhoService;
 
     @GetMapping
+    @Cacheable(value = "caminhoCache")
     public ResponseEntity<List<CaminhoDTO>> listarCaminhos(){
         var caminhos = this.caminhoService.getCaminhos();
         return ResponseEntity.ok(caminhos);
