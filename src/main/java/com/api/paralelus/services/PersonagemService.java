@@ -2,15 +2,21 @@ package com.api.paralelus.services;
 
 import com.api.paralelus.dto.PericiaDTO;
 import com.api.paralelus.dto.PersonagemDTO;
+import com.api.paralelus.entity.Campanha;
 import com.api.paralelus.entity.Pericia;
 import com.api.paralelus.entity.Personagem;
 import com.api.paralelus.entity.PersonagemPericia;
 import com.api.paralelus.mappers.PersonagemMapper;
 import com.api.paralelus.repository.PericiaRepository;
 import com.api.paralelus.repository.PersonagemRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -23,6 +29,8 @@ public class PersonagemService {
     private final PersonagemMapper personagemMapper;
 
     private final PericiaRepository periciaRepository;
+
+    private final FileStorageService storageService;
 
     public List<PersonagemDTO> getPersonagensUsuario(Integer id){
         List<Personagem> personagem = personagemRepository.findByUsuarioId(id);
@@ -62,17 +70,21 @@ public class PersonagemService {
         return personagemMapper.toDTO(personagemSalvo);
     }
 
-    public String getImagemPersonagem(Integer id) {
-        Optional<Personagem> personagem = personagemRepository.findById(id);
-        if (personagem.isEmpty() || personagem.get().getImagem() == null) {
-            return null;
+    @Transactional
+    public String salvarImagem(Integer id, MultipartFile file) {
+        Personagem personagem = personagemRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        try {
+            String url = storageService.salvarArquivo(file, "personagem", id + ".png");
+            personagem.setImagem(url);
+            personagemRepository.save(personagem);
+            return url;
+        } catch (IOException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro ao salvar capa", e);
         }
-        return "data:image/png;base64," + Base64.getEncoder().encodeToString(personagem.get().getImagem());
     }
-
-    public void deletePersonagem(Integer id) {
-        Optional<Personagem> personagem = personagemRepository.findById(id);
-        personagem.ifPresent(value -> personagemRepository.delete(value));
-    }
+//    public void deletePersonagem(Integer id) {
+//        Optional<Personagem> personagem = personagemRepository.findById(id);
+//        personagem.ifPresent(value -> personagemRepository.delete(value));
+//    }
 
 }

@@ -14,8 +14,8 @@ public interface PersonagemRepository extends JpaRepository<Personagem, Integer>
 
     @EntityGraph(attributePaths = {
             "pericias.pericia",
-            "arquetipos",
-            "caminhos"
+            "arquetipo",
+            "caminho"
     })
     List<Personagem> findByUsuarioId(Integer usuarioId);
 }

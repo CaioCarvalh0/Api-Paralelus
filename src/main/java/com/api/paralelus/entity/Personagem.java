@@ -46,8 +46,8 @@ public class Personagem {
     @JoinColumn(name = "raca_id")
     private Raca raca;
 
-    @Column(name = "imagem", columnDefinition = "BYTEA")
-    private byte[] imagem;
+    @Column(name = "imagem")
+    private String imagem;
 
     @Column(name = "inventario")
     private String inventario;
@@ -73,8 +73,7 @@ public class Personagem {
     @Column(name = "defesa")
     private Integer defesa;
 
-    @OneToMany(mappedBy = "personagem", fetch = FetchType.LAZY,
-               orphanRemoval = true)
+    @OneToMany(mappedBy = "personagem", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<PersonagemPericia> pericias  = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -83,7 +82,7 @@ public class Personagem {
             joinColumns = @JoinColumn(name = "personagem_id"),
             inverseJoinColumns = @JoinColumn(name = "arquetipo_id")
     )
-    private Set<Arquetipo> arquetipos;
+    private Set<Arquetipo> arquetipo;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -91,6 +90,6 @@ public class Personagem {
             joinColumns = @JoinColumn(name = "personagem_id"),
             inverseJoinColumns = @JoinColumn(name = "caminho_id")
     )
-    private Set<Caminho> caminhos;
+    private Set<Caminho> caminho;
 
 }

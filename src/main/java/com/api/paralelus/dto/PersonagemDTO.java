@@ -9,8 +9,8 @@ public record PersonagemDTO(
         UsuarioDTO usuario,
         String nome,
         RacaDTO raca,
-        List<CaminhoDTO> caminhos,
-        List<ArquetipoDTO> arquetipos,
+        List<CaminhoDTO> caminho,
+        List<ArquetipoDTO> arquetipo,
         List<PericiaDTO> pericias,
         AtributosDTO atributos,
         SingularidadeDTO singularidade,
@@ -22,7 +22,7 @@ public record PersonagemDTO(
         String inventario,
         String cibernetica,
         String historia,
-        String imagemBase64,
+        String imagemUrl,
         Integer level,
         String caracteristica
 ) {

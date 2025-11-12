@@ -1,5 +1,6 @@
 package com.api.paralelus.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -30,15 +31,15 @@ public class Campanha {
 
     private String introducao;
 
-    @Column(name = "capa", columnDefinition = "BYTEA")
-    private byte[] capa;
+    @Column(name = "capa")
+    private String capa;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "campanha_personagem",
             joinColumns = @JoinColumn(name = "campanha_id"),
-            inverseJoinColumns = @JoinColumn(name = "personagem_id")
+            inverseJoinColumns = @JoinColumn(name = "usuario_id")
     )
-    private Set<Personagem> jogadoresCampanha;
+    private Set<Usuario> jogadoresCampanha;
 
 }

@@ -26,7 +26,7 @@ public class PersonagemPericia {
     @JsonIgnore
     private Personagem personagem;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pericia_id", nullable = false)
     private Pericia pericia;
 

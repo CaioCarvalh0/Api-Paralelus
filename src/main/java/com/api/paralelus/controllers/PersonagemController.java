@@ -6,6 +6,7 @@ import com.api.paralelus.services.PersonagemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -22,26 +23,25 @@ public class PersonagemController {
         return ResponseEntity.ok(new ApiResponse<>(true, "", personagem));
     }
 
-
-    @GetMapping("/{id}/imagem")
-    public ResponseEntity getImagemPersonagem(@PathVariable Integer id) {
-        String imagemBase64 = personagemService.getImagemPersonagem(id);
-        if (imagemBase64 == null) {
-            return ResponseEntity.ok().body(new ApiResponse(true, "", null));
-        }
-        return ResponseEntity.ok().body(imagemBase64);
-    }
-
-
     @PostMapping("/salvar")
     public ResponseEntity<ApiResponse<PersonagemDTO>> salvarPersonagem(@RequestBody PersonagemDTO dto) {
         PersonagemDTO personagem = this.personagemService.salvarPersonagem(dto);
         return ResponseEntity.ok(new ApiResponse<>(true, "Personagem salvo com sucesso", personagem));
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<ApiResponse<Boolean>> deletePersonagem(@PathVariable Integer id) {
-        this.personagemService.deletePersonagem(id);
-        return ResponseEntity.ok(new ApiResponse<>(true, "Personagem removido com sucesso", true));
+    @PostMapping("/{id}/upload-capa")
+    public ResponseEntity<ApiResponse<String>> uploadCapa(
+            @PathVariable Integer id,
+            @RequestParam("file") MultipartFile file
+    ) {
+        var url = personagemService.salvarImagem(id, file);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Imagem atualizada", url));
     }
+
+
+//    @DeleteMapping("/delete/{id}")
+//    public ResponseEntity<ApiResponse<Boolean>> deletePersonagem(@PathVariable Integer id) {
+//        this.personagemService.deletePersonagem(id);
+//        return ResponseEntity.ok(new ApiResponse<>(true, "Personagem removido com sucesso", true));
+//    }
 }

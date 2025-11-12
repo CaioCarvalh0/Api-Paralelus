@@ -9,7 +9,8 @@ public record CampanhaDTO(
         Integer nivel,
         Boolean ativa,
         String introducao,
-        List<PersonagemDTO> jogadores,
-        String capaBase64
+        List<PersonagemDTO> personagens,
+        List<UsuarioDTO> jogadores,
+        String capaUrl
 ) {
 }

@@ -12,12 +12,7 @@ import java.util.List;
 public interface CampanhaRepository extends JpaRepository<Campanha, Integer> {
 
     @EntityGraph(attributePaths = {
-            "jogadoresCampanha",
-            "jogadoresCampanha.arquetipos",
-            "jogadoresCampanha.arquetipos.caminho",
-            "jogadoresCampanha.caminhos",
-            "jogadoresCampanha.pericias",
-            "jogadoresCampanha.pericias.pericia"
+            "jogadoresCampanha"
     })
     List<Campanha> findByAtivaTrue();
 }
